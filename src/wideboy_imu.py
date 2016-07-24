@@ -36,23 +36,30 @@ class ImuReader:
         # self._GRAVITY = 9.81
 
     def read_from_imu(self):
-        imu_msg = Imu()
-        imu_msg.header.stamp = rospy.Time.now()
-        imu_msg.header.frame_id = 'imu'
+        while True:
+            try:
+                imu_msg = Imu()
+                imu_msg.header.stamp = rospy.Time.now()
+                imu_msg.header.frame_id = 'imu'
 
-        orientation = self.bno.read_quaternion()
-        linear_acceleration = self.bno.read_linear_acceleration()
-        angular_velocity = self.bno.read_gyroscope()
+                orientation = self.bno.read_quaternion()
+                linear_acceleration = self.bno.read_linear_acceleration()
+                angular_velocity = self.bno.read_gyroscope()
 
-        imu_msg.orientation_covariance[0] = -1
-        imu_msg.linear_acceleration_covariance[0] = -1
-        imu_msg.angular_velocity_covariance[0] = -1
+                imu_msg.orientation_covariance[0] = -1
+                imu_msg.linear_acceleration_covariance[0] = -1
+                imu_msg.angular_velocity_covariance[0] = -1
 
-        imu_msg.orientation = Quaternion(orientation[1], orientation[2], orientation[3], orientation[0])
-        imu_msg.linear_acceleration = Vector3(linear_acceleration[0], linear_acceleration[1], linear_acceleration[2])
-        imu_msg.angular_velocity = Vector3(np.deg2rad(angular_velocity[0]),
-                                           np.deg2rad(angular_velocity[1]),
-                                           np.deg2rad(angular_velocity[2]))
-
-        return imu_msg
-
+                imu_msg.orientation = Quaternion(orientation[1],
+                                                 orientation[2],
+                                                 orientation[3],
+                                                 orientation[0])
+                imu_msg.linear_acceleration = Vector3(linear_acceleration[0],
+                                                      linear_acceleration[1],
+                                                      linear_acceleration[2])
+                imu_msg.angular_velocity = Vector3(np.deg2rad(angular_velocity[0]),
+                                                   np.deg2rad(angular_velocity[1]),
+                                                   np.deg2rad(angular_velocity[2]))
+                return imu_msg
+            except IOError:
+                pass

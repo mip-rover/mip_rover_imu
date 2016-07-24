@@ -2,6 +2,6 @@
 
 <launch>
   <node pkg="mip_rover_imu" type="mip_rover_imu.py" name="mip_rover_imu" respawn="true" output="screen">
-    <param name="calib_path" value="$(find imu_rtimulib)/params/imu_calib.yaml" />
+    <param name="calib_path" value="$(find mip_rover_imu)/params/imu_calib.yaml" />
   </node>
 </launch>
