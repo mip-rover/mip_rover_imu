@@ -31,7 +31,7 @@ class ImuReader:
         print('Magnetometer ID:    0x{0:02X}'.format(mag))
         print('Gyroscope ID:       0x{0:02X}\n'.format(gyro))
 
-        self.rate = 50
+        self.rate = 100
 
         # self._GRAVITY = 9.81
 
